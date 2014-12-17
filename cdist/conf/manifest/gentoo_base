@@ -1,0 +1,10 @@
+# Every machine becomes a marker, so sysadmins know that automatic
+# configurations are happening
+__file /etc/cdist-configured
+__cdistmarker
+
+__file /root/.ssh/config << DONE
+Host github.com StrictHostKeyChecking no
+DONE
+
+require="__file/root/.ssh/config" __git /usr/src/config --source git@github.com:stevenylai/config.git
