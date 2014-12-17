@@ -3,7 +3,8 @@
 __file /etc/cdist-configured
 __cdistmarker
 
-__file /root/.ssh/config --source - << DONE
+__directory /root/.ssh --mode 0700
+require="__directory /root/.ssh" __file /root/.ssh/config --source - << DONE
 Host github.com StrictHostKeyChecking no
 DONE
 
