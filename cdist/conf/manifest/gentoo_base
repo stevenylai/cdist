@@ -7,4 +7,4 @@ __file /root/.ssh/config << DONE
 Host github.com StrictHostKeyChecking no
 DONE
 
-require="__file/root/.ssh/config" __git /usr/src/config --source git@github.com:stevenylai/config.git
+require="__file/root/.ssh/config" __git /usr/src/config --source https://github.com/stevenylai/cdist.git
