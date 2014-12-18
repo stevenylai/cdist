@@ -31,3 +31,23 @@ transport="$(cat $__object/explorer/sip.conf|grep '^transport=tls')"
 if [ "$transport" = "" ]; then
    echo "sed -i 's/^transport=[^ \t]\+/transport=tls/g' $target_dir/sip.conf"
 fi
+tlscertfile="$(cat $__object/explorer/sip.conf|grep '^tlscertfile=/var/lib/asterisk/keys/asterisk.pem')"
+if [ "$tlscertfile" = "" ]; then
+    echo "sed -i 's,^[;]\?tlscertfile=[^ \t]\+,tlscertfile=/var/lib/asterisk/keys/asterisk.pem,g' $target_dir/sip.conf"
+fi
+tlscafile="$(cat $__object/explorer/sip.conf|grep '^tlscafile=/var/lib/asterisk/keys/ca.crt')"
+if [ "$tlscafile" = "" ]; then
+    echo "sed -i 's,^[;]\?tlscafile=[^ \t]\+,tlscafile=/var/lib/asterisk/keys/ca.crt,g' $target_dir/sip.conf"
+fi
+tlsdontverifyserver="$(cat $__object/explorer/sip.conf|grep '^tlsdontverifyserver=yes')"
+if [ "$tlsdontverifyserver" = "" ]; then
+   echo "sed -i 's/^[;]\?tlsdontverifyserver=[^ \t]\+/tlsdontverifyserver=yes/g' $target_dir/sip.conf"
+fi
+tlscipher="$(cat $__object/explorer/sip.conf|grep '^tlscipher=ALL')"
+if [ "$tlscipher" = "" ]; then
+   echo "sed -i 's/^[;]\?tlscipher.*/tlscipher=ALL/g' $target_dir/sip.conf"
+fi
+rtcachefriends="$(cat $__object/explorer/sip.conf|grep '^rtcachefriends=no')"
+if [ "$rtcachefriends" = "" ]; then
+   echo "sed -i 's/^[;]\?rtcachefriends=[^ \t]\+/rtcachefriends=no/g' $target_dir/sip.conf"
+fi
