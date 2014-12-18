@@ -1,4 +1,4 @@
-password="$(echo "$RANDOM""|md5sum|cut -c-10)"
+password="$(echo "$RANDOM"|md5sum|cut -c-10)"
 
 state_is="$(cat "$__object/explorer/state")"
 state_should="mysql"
