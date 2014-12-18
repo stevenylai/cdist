@@ -1,0 +1,33 @@
+target_dir="/etc/asterisk"
+#extensions.conf
+valtasip="$(cat $__object/explorer/extensions.conf|grep valtasip)"
+if [ "$valtasip" = "" ]; then
+   echo "cat >> $target_dir/extensions.conf << EOF"
+   echo '[valtasip]'
+   echo 'exten => _.,1,NoOp(IM receiving)'
+   echo '	same => n,NoOp(To \$(MESSAGE(to)))'
+   echo '	same => n,NoOp(From \$(MESSAGE(from)))'
+   echo '	same => n,NoOp(Body \$(MESSAGE(body)))'
+   echo '	same => n,Set(ACTUALTO=\${CUT(MESSAGE(to),@,1)})'
+   echo '	same => n,MessageSend(\${ACTUALTO},\${MESSAGE(from)})'
+   echo '	same => n,NoOp(Send status is \${MESSAGE_SEND_STATUS})'
+   echo '	same => n,Hangup()'
+   echo 'EOF'
+fi
+#sip.conf
+valtasip="$(cat $__object/explorer/sip.conf|grep '^context=valtasip')"
+if [ "$valtasip" = "" ]; then
+   echo "sed -i 's/^context=[^ \t]\+/context=valtasip/g' $target_dir/sip.conf"
+fi
+tlsenable="$(cat $__object/explorer/sip.conf|grep '^tlsenable=yes')"
+if [ "$tlsenable" = "" ]; then
+   echo "sed -i 's/^[;]\?tlsenable=[^ \t]\+/tlsenable=yes/g' $target_dir/sip.conf"
+fi
+tlsbindaddr="$(cat $__object/explorer/sip.conf|grep '^tlsbindaddr=0\.0\.0\.0')"
+if [ "$tlsbindaddr" = "" ]; then
+   echo "sed -i 's/^[;]\?tlsbindaddr=[^ \t]\+/tlsbindaddr=0.0.0.0/g' $target_dir/sip.conf"
+fi
+transport="$(cat $__object/explorer/sip.conf|grep '^transport=tls')"
+if [ "$transport" = "" ]; then
+   echo "sed -i 's/^transport=[^ \t]\+/transport=tls/g' $target_dir/sip.conf"
+fi
