@@ -14,6 +14,15 @@ if [ "$valtasip" = "" ]; then
    echo '	same => n,Hangup()'
    echo 'EOF'
 fi
+#extconfig.conf
+sippeers="$(cat $__object/explorer/extconfig.conf|grep '^sippeers => mysql,general,sip_buddies')"
+if [ "$sippeers" = "" ]; then
+   echo "echo 'sippeers => mysql,general,sip_buddies' >> $target_dir/extconfig.conf"
+fi
+sipusers="$(cat $__object/explorer/extconfig.conf|grep '^sipusers => mysql,general,sip_buddies')"
+if [ "$sipusers" = "" ]; then
+   echo "echo 'sipusers => mysql,general,sip_buddies' >> $target_dir/extconfig.conf"
+fi
 #sip.conf
 valtasip="$(cat $__object/explorer/sip.conf|grep '^context=valtasip')"
 if [ "$valtasip" = "" ]; then
