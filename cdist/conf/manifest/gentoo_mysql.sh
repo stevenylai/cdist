@@ -1,3 +1,3 @@
 . $__manifest/gentoo_base.sh
-__package mysql --state installed
+__package dev-db/mysql --state present
 
