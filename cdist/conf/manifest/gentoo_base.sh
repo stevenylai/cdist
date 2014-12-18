@@ -3,8 +3,10 @@
 __file /etc/cdist-configured
 __cdistmarker
 
-__directory /root/.ssh --mode 0700
-require="__directory/root/.ssh" __file /root/.ssh/config --source - << DONE
+__ssh_dot_ssh root
+require="__ssh_dot_ssh/root" __ssh_authorized_keys ec2-user \
+   --key "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUcv2HlijCb1FyeFpTd1fkWqX+frX0EsQAEMj8AGXkH+BoK+CRZwF+ezOjfDl0Znzd40bwdSkoIMM7UT8A6DtJpZy/EOGcQZHdzbfr4w+A0SkoczSvDrKUNhM6LgXNHOqPf0+Ypm2zYsf10Ks/FAQVb1ma9TPJF+3pgPM/Et9AIaLUPiCbLEYSBnbygFgOAtox48dqXO/VVlS774a/BxbCOfMEa+mUwNaSxnGK4MrB+oOVKpwAixog3LJ0sWtgkj6ynI35EmS+JvflJlfAGYm1MbGW4wTYPRwst0N0Wg3MZYBX9ThHJ8KHw3oXEvwNULyPr0LXfqWYAQVObvR2ygrn Steven Lai@StevenLai"
+require="__ssh_dot_ssh/root" __file /root/.ssh/config --source - << DONE
 Host github.com StrictHostKeyChecking no
 DONE
 
