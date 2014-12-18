@@ -1,6 +1,6 @@
 password="$(echo "$RANDOM""|md5sum|cut -c-10)"
 
-state_is="$(ls /var/lib/mysql/ | grep mysql)"
+state_is="$(cat "$__object/explorer/state")"
 state_should="mysql"
 
 [ "$state_should" = "$state_is" ] && exit 0
@@ -10,4 +10,4 @@ __file /root/.my.cnf --source - << EOF
 password="$password"
 EOF
 
-emerge --config mysql
+echo "emerge --config mysql"
