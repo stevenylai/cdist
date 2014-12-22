@@ -25,6 +25,6 @@
 # Usage:
 #  cdist config --remote-exec "/path/to/this/script" target_host
 #
-SSH_OPTS="-i"${HOME}"/.ssh/valta.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+SSH_OPTS="-i"${HOME}"/.liricco/valta.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 host="$1"; shift
 ssh ${SSH_OPTS} -q "$host" sudo sh -c \""$@"\"
