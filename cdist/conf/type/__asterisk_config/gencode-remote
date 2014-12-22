@@ -102,3 +102,29 @@ verbose=$(grep '^verbose => verbose' "$__object/explorer/logger.conf" || true)
 if [ "$verbose" = "" ]; then
     echo "echo 'verbose => verbose' >> $target_dir/logger.conf"
 fi
+
+#keys
+passkey=$(echo "$RANDOM"|md5sum|cut -c-10)
+prefix="/var/lib/asterisk/keys"
+
+echo "openssl genrsa -des3 -out $prefix/ca.key -passout pass:$passkey 4096"
+echo "cat > $prefix/ca.cfg << EOF"
+echo "[req]"
+echo "distinguished_name = req_distinguished_name"
+echo "prompt = no"
+echo "[req_distinguished_name]"
+echo "CN=Asterisk Private CA"
+echo "O=Asterisk"
+echo "[ext]"
+echo "basicConstraints=CA:TRUE"
+echo "EOF"
+
+echo "openssl req -new -config $prefix/ca.cfg -x509 -days 365 -key $prefix/ca.key -out $prefix/ca.crt -passin pass:$passkey > /dev/null"
+
+echo "openssl genrsa -out $prefix/asterisk.key 1024 > /dev/null"
+echo "openssl req -batch -new -config $prefix/ca.cfg -key $prefix/asterisk.key -out $prefix/asterisk.csr > /dev/null"
+
+echo "openssl x509 -req -days 365 -in $prefix/asterisk.csr -CA $prefix/ca.crt -CAkey $prefix/ca.key -set_serial 01 -out $prefix/asterisk.crt -passin pass:$passkey > /dev/null"
+
+echo "cat $prefix/asterisk.key > $prefix/asterisk.pem"
+echo "cat $prefix/asterisk.crt >> $prefix/asterisk.pem"
