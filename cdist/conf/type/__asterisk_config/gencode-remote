@@ -88,3 +88,17 @@ dbname=$(grep "^dbname = $mysql_dbname" "$__object/explorer/res_config_mysql.con
 if [ "$dbname" = "" ]; then
     echo "sed -i \"s/^[;]\?dbname = [^ \t]\+/dbname = $mysql_dbname/g\" $target_dir/res_config_mysql.conf"
 fi
+#asterisk.conf
+verbose=$(grep '^verbose = 3' "$__object/explorer/asterisk.conf" || true)
+if [ "$verbose" = "" ]; then
+    echo "sed -i 's/^[;]\?verbose = [^ \t]\+/verbose = 3/g' $target_dir/asterisk.conf"
+fi
+#logger.conf
+rotate=$(grep '^rotatestrategy = rotate' "$__object/explorer/logger.conf" || true)
+if [ "$rotate" = "" ]; then
+    echo "sed -i 's/^[;]\?rotatestrategy = [^ \t]\+/rotatestrategy = rotate/g' $target_dir/logger.conf"
+fi
+verbose=$(grep '^verbose => verbose' "$__object/explorer/logger.conf" || true)
+if [ "$verbose" = "" ]; then
+    echo "echo 'verbose => verbose' >> $target_dir/logger.conf"
+fi
