@@ -1,6 +1,6 @@
 target_dir="/etc/asterisk"
 #extensions.conf
-valtasip="$(cat "$__object/explorer/extensions.conf"|grep valtasip)"
+valtasip=$(cat "$__object/explorer/extensions.conf"|grep valtasip)
 if [ "$valtasip" = "" ]; then
    echo "cat >> $target_dir/extensions.conf << EOF"
    echo '[valtasip]'
@@ -15,48 +15,48 @@ if [ "$valtasip" = "" ]; then
    echo 'EOF'
 fi
 #extconfig.conf
-sippeers="$(cat "$__object/explorer/extconfig.conf"|grep '^sippeers => mysql,general,sip_buddies')"
+sippeers=$(cat "$__object/explorer/extconfig.conf"|grep '^sippeers => mysql,general,sip_buddies')
 if [ "$sippeers" = "" ]; then
    echo "echo 'sippeers => mysql,general,sip_buddies' >> $target_dir/extconfig.conf"
 fi
-sipusers="$(cat "$__object/explorer/extconfig.conf"|grep '^sipusers => mysql,general,sip_buddies')"
+sipusers=$(cat "$__object/explorer/extconfig.conf"|grep '^sipusers => mysql,general,sip_buddies')
 if [ "$sipusers" = "" ]; then
    echo "echo 'sipusers => mysql,general,sip_buddies' >> $target_dir/extconfig.conf"
 fi
 #sip.conf
-valtasip="$(cat "$__object/explorer/sip.conf"|grep '^context=valtasip')"
+valtasip=$(cat "$__object/explorer/sip.conf"|grep '^context=valtasip')
 if [ "$valtasip" = "" ]; then
    echo "sed -i 's/^context=[^ \t]\+/context=valtasip/g' $target_dir/sip.conf"
 fi
-tlsenable="$(cat "$__object/explorer/sip.conf"|grep '^tlsenable=yes')"
+tlsenable=$(cat "$__object/explorer/sip.conf"|grep '^tlsenable=yes')
 if [ "$tlsenable" = "" ]; then
    echo "sed -i 's/^[;]\?tlsenable=[^ \t]\+/tlsenable=yes/g' $target_dir/sip.conf"
 fi
-tlsbindaddr="$(cat "$__object/explorer/sip.conf"|grep '^tlsbindaddr=0\.0\.0\.0')"
+tlsbindaddr=$(cat "$__object/explorer/sip.conf"|grep '^tlsbindaddr=0\.0\.0\.0')
 if [ "$tlsbindaddr" = "" ]; then
    echo "sed -i 's/^[;]\?tlsbindaddr=[^ \t]\+/tlsbindaddr=0.0.0.0/g' $target_dir/sip.conf"
 fi
-transport="$(cat "$__object/explorer/sip.conf"|grep '^transport=tls')"
+transport=$(cat "$__object/explorer/sip.conf"|grep '^transport=tls')
 if [ "$transport" = "" ]; then
    echo "sed -i 's/^transport=[^ \t]\+/transport=tls/g' $target_dir/sip.conf"
 fi
-tlscertfile="$(cat "$__object/explorer/sip.conf"|grep '^tlscertfile=/var/lib/asterisk/keys/asterisk.pem')"
+tlscertfile=$(cat "$__object/explorer/sip.conf"|grep '^tlscertfile=/var/lib/asterisk/keys/asterisk.pem')
 if [ "$tlscertfile" = "" ]; then
     echo "sed -i 's,^[;]\?tlscertfile=[^ \t]\+,tlscertfile=/var/lib/asterisk/keys/asterisk.pem,g' $target_dir/sip.conf"
 fi
-tlscafile="$(cat "$__object/explorer/sip.conf"|grep '^tlscafile=/var/lib/asterisk/keys/ca.crt')"
+tlscafile=$(cat "$__object/explorer/sip.conf"|grep '^tlscafile=/var/lib/asterisk/keys/ca.crt')
 if [ "$tlscafile" = "" ]; then
     echo "sed -i 's,^[;]\?tlscafile=[^ \t]\+,tlscafile=/var/lib/asterisk/keys/ca.crt,g' $target_dir/sip.conf"
 fi
-tlsdontverifyserver="$(cat "$__object/explorer/sip.conf"|grep '^tlsdontverifyserver=yes')"
+tlsdontverifyserver=$(cat "$__object/explorer/sip.conf"|grep '^tlsdontverifyserver=yes')
 if [ "$tlsdontverifyserver" = "" ]; then
    echo "sed -i 's/^[;]\?tlsdontverifyserver=[^ \t]\+/tlsdontverifyserver=yes/g' $target_dir/sip.conf"
 fi
-tlscipher="$(cat "$__object/explorer/sip.conf"|grep '^tlscipher=ALL')"
+tlscipher=$(cat "$__object/explorer/sip.conf"|grep '^tlscipher=ALL')
 if [ "$tlscipher" = "" ]; then
    echo "sed -i 's/^[;]\?tlscipher.*/tlscipher=ALL/g' $target_dir/sip.conf"
 fi
-rtcachefriends="$(cat "$__object/explorer/sip.conf"|grep '^rtcachefriends=no')"
+rtcachefriends=$(cat "$__object/explorer/sip.conf"|grep '^rtcachefriends=no')
 if [ "$rtcachefriends" = "" ]; then
    echo "sed -i 's/^[;]\?rtcachefriends=[^ \t]\+/rtcachefriends=no/g' $target_dir/sip.conf"
 fi
