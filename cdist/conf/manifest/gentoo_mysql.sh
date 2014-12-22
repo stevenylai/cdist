@@ -1,6 +1,10 @@
 . $__manifest/gentoo_base.sh
 __package dev-db/mysql --state present
-mysql_password="$(echo "$RANDOM"|md5sum|cut -c-10)"
+mkdir -p ${HOME}/.liricco/${env}/mysql
+if [ ! -f "${HOME}/.liricco/${env}/mysql/password" ]; then
+    echo "$RANDOM"|md5sum|cut -c-10 > "${HOME}/.liricco/${env}/mysql/password"
+fi
+mysql_password=$(cat "${HOME}/.liricco/${env}/mysql/password")
 __file /root/.my.cnf --source - << EOF
 [client]
 password="$mysql_password"
