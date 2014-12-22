@@ -64,15 +64,27 @@ if [ "$rtcachefriends" = "" ]; then
 fi
 #res_config_mysql.conf
 mysql_server=$(cat "$__object/parameter/mysql_server")
-server=$(grep "dbhost = $mysql_server" "$__object/explorer/res_config_mysql.conf" || true)
-if [ "server" = "" ]; then
-    echo "sed -i \"s/^;dbhost = [^ \t]\+/dbhost = $mysql_server/g\" $target_dir/res_config_mysql.conf"
+server=$(grep "^dbhost = $mysql_server" "$__object/explorer/res_config_mysql.conf" || true)
+if [ "$server" = "" ]; then
+    echo "sed -i \"s/^[;]\?dbhost = [^ \t]\+/dbhost = $mysql_server/g\" $target_dir/res_config_mysql.conf"
 fi
 mysql_port=$(cat "$__object/parameter/mysql_port")
-port=$(grep "dbhost = $mysql_port" "$__object/explorer/res_config_mysql.conf" || true)
-if [ "port" = "" ]; then
-    echo "sed -i \"s/^;dbport = [^ \t]\+/dbport = $mysql_port/g\" $target_dir/res_config_mysql.conf"
+port=$(grep "^dbport = $mysql_port" "$__object/explorer/res_config_mysql.conf" || true)
+if [ "$port" = "" ]; then
+    echo "sed -i \"s/^[;]\?dbport = [^ \t]\+/dbport = $mysql_port/g\" $target_dir/res_config_mysql.conf"
 fi
 mysql_username=$(cat "$__object/parameter/mysql_username")
+username=$(grep "^dbuser = $mysql_username" "$__object/explorer/res_config_mysql.conf" || true)
+if [ "$username" = "" ]; then
+    echo "sed -i \"s/^[;]\?dbuser = [^ \t]\+/dbuser = $mysql_username/g\" $target_dir/res_config_mysql.conf"
+fi
 mysql_password=$(cat "$__object/parameter/mysql_password")
+password=$(grep "^dbpass = $mysql_password" "$__object/explorer/res_config_mysql.conf" || true)
+if [ "$password" = "" ]; then
+    echo "sed -i \"s/^[;]\?dbpass = [^ \t]\+/dbpass = $mysql_password/g\" $target_dir/res_config_mysql.conf"
+fi
 mysql_dbname=$(cat "$__object/parameter/mysql_dbname")
+dbname=$(grep "^dbname = $mysql_dbname" "$__object/explorer/res_config_mysql.conf" || true)
+if [ "$dbname" = "" ]; then
+    echo "sed -i \"s/^[;]\?dbname = [^ \t]\+/dbname = $mysql_dbname/g\" $target_dir/res_config_mysql.conf"
+fi
