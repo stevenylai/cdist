@@ -34,7 +34,7 @@
 # a directory. The below preprocessor loop takes care of that.
 
 # second last argument is the source
-SSH_OPTS="-i"${HOME}"/.liricco/valta.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+SSH_OPTS="-i ${HOME}/.liricco/valta.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 source_index=$(($#-1))
 index=0
 for arg in $@; do

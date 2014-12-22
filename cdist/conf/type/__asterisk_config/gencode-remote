@@ -1,3 +1,5 @@
+#!/bin/sh
+
 target_dir="/etc/asterisk"
 #extensions.conf
 valtasip=$(cat "$__object/explorer/extensions.conf"|grep valtasip)
