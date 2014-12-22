@@ -62,3 +62,17 @@ rtcachefriends=$(grep '^rtcachefriends=no' "$__object/explorer/sip.conf" || true
 if [ "$rtcachefriends" = "" ]; then
    echo "sed -i 's/^[;]\?rtcachefriends=[^ \t]\+/rtcachefriends=no/g' $target_dir/sip.conf"
 fi
+#res_config_mysql.conf
+mysql_server=$(cat "$__object/parameter/mysql_server")
+server=$(grep "dbhost = $mysql_server" "$__object/explorer/res_config_mysql.conf" || true)
+if [ "server" = "" ]; then
+    echo "sed -i \"s/^;dbhost = [^ \t]\+/dbhost = $mysql_server/g\" $target_dir/res_config_mysql.conf"
+fi
+mysql_port=$(cat "$__object/parameter/mysql_port")
+port=$(grep "dbhost = $mysql_port" "$__object/explorer/res_config_mysql.conf" || true)
+if [ "port" = "" ]; then
+    echo "sed -i \"s/^;dbport = [^ \t]\+/dbport = $mysql_port/g\" $target_dir/res_config_mysql.conf"
+fi
+mysql_username=$(cat "$__object/parameter/mysql_username")
+mysql_password=$(cat "$__object/parameter/mysql_password")
+mysql_dbname=$(cat "$__object/parameter/mysql_dbname")
