@@ -15,7 +15,7 @@ if [ "$valtasip" = "" ]; then
    echo 'EOF'
 fi
 #extconfig.conf
-sippeers="$(cat $__object/explorer/extconfig.conf|grep '^sippeers => mysql,general,sip_buddies')"
+sippeers="$(cat "$__object/explorer/extconfig.conf"|grep '^sippeers => mysql,general,sip_buddies')"
 if [ "$sippeers" = "" ]; then
    echo "echo 'sippeers => mysql,general,sip_buddies' >> $target_dir/extconfig.conf"
 fi
