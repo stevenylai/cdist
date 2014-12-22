@@ -1,6 +1,6 @@
 target_dir="/etc/asterisk"
 #extensions.conf
-valtasip="$(cat $__object/explorer/extensions.conf|grep valtasip)"
+valtasip="$(cat "$__object/explorer/extensions.conf"|grep valtasip)"
 if [ "$valtasip" = "" ]; then
    echo "cat >> $target_dir/extensions.conf << EOF"
    echo '[valtasip]'
