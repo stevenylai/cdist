@@ -1,6 +1,7 @@
 #!/bin/sh
 
 target_dir="/etc/asterisk"
+pub_ip=$(cat "$__global/explorer/aws_public_ip")
 #extensions.conf
 valtasip=$(grep valtasip "$__object/explorer/extensions.conf" || true)
 if [ "$valtasip" = "" ]; then
@@ -62,6 +63,16 @@ rtcachefriends=$(grep '^rtcachefriends=no' "$__object/explorer/sip.conf" || true
 if [ "$rtcachefriends" = "" ]; then
    echo "sed -i 's/^[;]\?rtcachefriends=[^ \t]\+/rtcachefriends=no/g' $target_dir/sip.conf"
 fi
+rtsavesysname=$(grep '^rtsavesysname=yes' "$__object/explorer/sip.conf" || true)
+if [ "$rtsavesysname" = "" ]; then
+    echo "sed -i 's/^[;]\?rtsavesysname=[^ \t]\+/rtsavesysname=yes/g' $target_dir/sip.conf"
+fi
+externaddr=$(grep '^externaddr=' "$__object/explorer/sip.conf" || true)
+if [ "$externaddr" = "" ]; then
+    echo "sed -i '/; icesupport = yes/a\\"
+    echo "externaddr=$pub_ip\\"
+    echo "localnet=10.0.0.0/255.0.0.0' $target_dir/sip.conf"
+fi
 #res_config_mysql.conf
 mysql_server=$(cat "$__object/parameter/mysql_server")
 server=$(grep "^dbhost = $mysql_server" "$__object/explorer/res_config_mysql.conf" || true)
@@ -92,6 +103,10 @@ fi
 verbose=$(grep '^verbose = 3' "$__object/explorer/asterisk.conf" || true)
 if [ "$verbose" = "" ]; then
     echo "sed -i 's/^[;]\?verbose = [^ \t]\+/verbose = 3/g' $target_dir/asterisk.conf"
+fi
+systemname=$(grep "^systemname = $pub_ip" "$__object/explorer/asterisk.conf" || true)
+if [ "$systemname" = "" ]; then
+    echo "sed -i \"s/^[;]\?systemname = [^ \t]\+/systemname = $pub_ip/g\" $target_dir/asterisk.conf"
 fi
 #logger.conf
 rotate=$(grep '^rotatestrategy = rotate' "$__object/explorer/logger.conf" || true)
