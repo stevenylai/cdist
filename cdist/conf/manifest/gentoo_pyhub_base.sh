@@ -8,6 +8,7 @@ __package sci-libs/scikits_learn --state present
 __package dev-python/jsonschema --state present
 __package dev-python/alembic --state present
 __package dev-python/pymysql --state present
+__package dev-python/pyyaml --state present
 __package dev-python/nosexcover --state present
 __package dev-python/pytest-cov --state present
 __package dev-python/pep8 --state present
